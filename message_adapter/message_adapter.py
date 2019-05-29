@@ -85,7 +85,7 @@ class message_adapter:
         )
         return self.__getTaskNameFromExecutionHistory(executionHistory, arn)
 
-    def sfTest():
+    def sfTest(self):
         sfn = stepFn()
         executionHistory = sfn.get_execution_history(
             executionArn='executionArn',
