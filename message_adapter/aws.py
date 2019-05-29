@@ -31,7 +31,14 @@ def s3():
 def stepFn():
     region = os.getenv('AWS_DEFAULT_REGION', 'us-east-1')
     if ('CUMULUS_ENV' in os.environ) and (os.environ["CUMULUS_ENV"] == 'testing'):
-        return boto3.client(service_name='stepfunctions', endpoint_url=localhost_s3_url(), region_name=region)
+        print 'DEBUG - Init SFN'
+        return boto3.client(
+            service_name='stepfunctions',
+            endpoint_url=localhost_s3_url(),
+            region_name=region
+            aws_access_key_id='my-id',
+            aws_secret_access_key='my-secret',
+            verify=False)
     else:
         config = Config(region_name=region, retries=dict(max_attempts=30))
         return boto3.client('stepfunctions', config=config)
