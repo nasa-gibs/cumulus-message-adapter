@@ -43,6 +43,10 @@ class Test(unittest.TestCase):
         self.s3.Bucket(self.bucket_name).delete_objects(Delete=delete_objects_object)
         self.s3.Bucket(self.bucket_name).delete()
 
+    def test_fail(self):
+        result = self.cumulus_message_adapter.sfTest()
+        assert result == 1
+
     # loadAndUpdateRemoteEvent tests
     def test_returns_remote_s3_object(self):
         """ Test remote s3 event is returned when 'replace' key is present """
@@ -96,7 +100,7 @@ class Test(unittest.TestCase):
     def test_result_payload_without_config(self):
         """ Test nestedResponse is returned when no config argument is passed """
         result = self.cumulus_message_adapter._message_adapter__assignOutputs( # pylint: disable=no-member
-            self.nested_response, {}, None) 
+            self.nested_response, {}, None)
         assert result['payload'] == self.nested_response
 
     def test_result_payload_without_config_outputs(self):
@@ -196,7 +200,7 @@ class Test(unittest.TestCase):
         }
         assert remote_event_object == expected_remote_event_object
         assert create_next_event_result == expected_create_next_event_result
-    
+
     def test_basic(self):
         """ test basic.input.json """
         inp = open(os.path.join(self.test_folder, 'basic.input.json'))
@@ -229,11 +233,11 @@ class Test(unittest.TestCase):
         messageConfig = msg.get('messageConfig')
         if 'messageConfig' in msg: del msg['messageConfig']
         result = self.cumulus_message_adapter.createNextEvent(msg, remoteEvent, messageConfig)
-        
+
         delete_objects_object = {'Objects': [{'Key': key_name}]}
         self.s3.Bucket(bucket_name).delete_objects(Delete=delete_objects_object)
         self.s3.Bucket(bucket_name).delete()
-        assert result == out_msg 
+        assert result == out_msg
 
     def test_jsonpath(self):
         """ test jsonpath.input.json """
@@ -247,7 +251,7 @@ class Test(unittest.TestCase):
         if 'messageConfig' in msg: del msg['messageConfig']
         result = self.cumulus_message_adapter.createNextEvent(msg, in_msg, messageConfig)
         assert result == out_msg
-    
+
     def test_meta(self):
         """ test meta.input.json """
         inp = open(os.path.join(self.test_folder, 'meta.input.json'))
@@ -280,12 +284,12 @@ class Test(unittest.TestCase):
         messageConfig = msg.get('messageConfig')
         if 'messageConfig' in msg: del msg['messageConfig']
         result = self.cumulus_message_adapter.createNextEvent(msg, remoteEvent, messageConfig)
-        
+
         delete_objects_object = {'Objects': [{'Key': key_name}]}
         self.s3.Bucket(bucket_name).delete_objects(Delete=delete_objects_object)
         self.s3.Bucket(bucket_name).delete()
 
-        assert result == out_msg 
+        assert result == out_msg
 
     @patch.object(cumulus_message_adapter, '_message_adapter__getCurrentSfnTask', return_value="Example")
     def test_sfn(self, getCurrentSfnTask_function):
@@ -299,7 +303,7 @@ class Test(unittest.TestCase):
         messageConfig = msg.get('messageConfig')
         if 'messageConfig' in msg: del msg['messageConfig']
         result = self.cumulus_message_adapter.createNextEvent(msg, in_msg, messageConfig)
-        assert result == out_msg 
+        assert result == out_msg
 
     @patch.object(cumulus_message_adapter, '_message_adapter__getCurrentSfnTask', return_value="Example")
     def test_context(self, getCurrentSfnTask_function):
@@ -316,8 +320,8 @@ class Test(unittest.TestCase):
         messageConfig = msg.get('messageConfig')
         if 'messageConfig' in msg: del msg['messageConfig']
         result = self.cumulus_message_adapter.createNextEvent(msg, in_msg, messageConfig)
-        assert result == out_msg 
-    
+        assert result == out_msg
+
     @patch.object(cumulus_message_adapter, '_message_adapter__getCurrentSfnTask', return_value="Example")
     def test_inline_template(self, getCurrentSfnTask_function):
         """ test inline_template.input.json """
@@ -330,7 +334,7 @@ class Test(unittest.TestCase):
         messageConfig = msg.get('messageConfig');
         if 'messageConfig' in msg: del msg['messageConfig'];
         result = self.cumulus_message_adapter.createNextEvent(msg, in_msg, messageConfig)
-        assert result == out_msg 
+        assert result == out_msg
 
     def test_templates(self):
         """ test templates.input.json """
@@ -416,7 +420,7 @@ class Test(unittest.TestCase):
         handler_response = { "goodbye": "world" }
         result = adapter.createNextEvent(handler_response, in_msg, messageConfig)
         assert result["payload"]["goodbye"] == "world"
-    
+
     def test_failing_output_jsonschema(self):
         """ test a working output schema """
         inp = open(os.path.join(self.test_folder, 'templates.input.json'))

@@ -85,6 +85,15 @@ class message_adapter:
         )
         return self.__getTaskNameFromExecutionHistory(executionHistory, arn)
 
+    def sfTest():
+        sfn = stepFn()
+        executionHistory = sfn.get_execution_history(
+            executionArn='executionArn',
+            maxResults=40,
+            reverseOrder=True
+        )
+        return executionHistory
+
     ##################################
     #  Input message interpretation  #
     ##################################
