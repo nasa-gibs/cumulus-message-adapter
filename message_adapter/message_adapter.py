@@ -90,7 +90,8 @@ class message_adapter:
         executionHistory = sfn.get_execution_history(
             executionArn='executionArn',
             maxResults=40,
-            reverseOrder=True
+            reverseOrder=True,
+            nextToken='x'
         )
         return executionHistory
 
