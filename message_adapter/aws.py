@@ -35,7 +35,7 @@ def stepFn():
         return boto3.client(
             service_name='stepfunctions',
             endpoint_url=localhost_s3_url(),
-            region_name=region
+            region_name=region,
             aws_access_key_id='my-id',
             aws_secret_access_key='my-secret',
             verify=False)
