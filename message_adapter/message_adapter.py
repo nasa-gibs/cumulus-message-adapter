@@ -422,7 +422,8 @@ class message_adapter:
 
         return {
             'cumulus_meta': event['cumulus_meta'],
-            'replace': s3Location
+            'replace': s3Location,
+            'exception': event['exception'],
         }
 
     def createNextEvent(self, handlerResponse, event, messageConfig):
